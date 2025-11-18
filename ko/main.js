@@ -161,8 +161,8 @@ let rootSeed = null;
 let resizeTimeout = null;
 
 const TREE_HIDE_BREAKPOINT = {
-  width: 520,
-  height: 500,
+  width: 320,
+  height: 360,
 };
 
 function drawGroundLine(groundY){
