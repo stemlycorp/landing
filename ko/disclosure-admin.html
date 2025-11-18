@@ -7,6 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="../css/disclosure.css" />
   <style>
     .admin-page .admin-lede {
@@ -118,7 +119,7 @@
     <a class="logo" href="./index.html">Stemly</a>
     <nav class="primary-nav" aria-label="Stemly sections">
       <a href="./about.html">회사 소개</a>
-      <a href="./disclosure.html" aria-current="page">공시</a>
+      <a href="./disclosure.html">공시</a>
       <a href="mailto:contact@stemly.me">문의</a>
       <div class="lang-switch" aria-label="언어 선택">
         <span class="icon" aria-hidden="true">🌐</span>
@@ -128,8 +129,9 @@
     </nav>
   </header>
 
-  <div class="page-content admin-page">
-    <main>
+  <main>
+    <div class="page-content admin-page">
+      <canvas id="treeCanvas" aria-label="Fractal Tree Growth Animation"></canvas>
       <section class="page-lede admin-lede">
         <h1 class="hero-title hero-title-ko">전자공시 관리</h1>
         <p class="hero-subtitle hero-subtitle-ko">
@@ -137,56 +139,58 @@
         </p>
       </section>
 
-      <section class="admin-panels" aria-live="polite">
-        <section id="loginSection" class="admin-panel">
-          <span class="form-label">INTERNAL ACCESS</span>
-          <h2>전자공시 관리 로그인</h2>
-          <p class="admin-panel__subtitle">등록 권한이 있는 Stemly 이메일 계정으로 로그인해주세요.</p>
-          <div class="form-field">
-            <label for="loginEmail" class="form-label">이메일</label>
-            <input id="loginEmail" type="email" class="form-input" placeholder="admin@example.com" />
-          </div>
-          <div class="form-field">
-            <label for="loginPassword" class="form-label">비밀번호</label>
-            <input id="loginPassword" type="password" class="form-input" placeholder="비밀번호" />
-          </div>
-          <button id="loginBtn" type="button" class="form-button">로그인</button>
-          <p id="loginStatus" class="form-status"></p>
-        </section>
+      <section class="content-section">
+        <div class="admin-panels" aria-live="polite">
+          <section id="loginSection" class="admin-panel">
+            <span class="form-label">INTERNAL ACCESS</span>
+            <h2>전자공시 관리 로그인</h2>
+            <p class="admin-panel__subtitle">등록 권한이 있는 Stemly 이메일 계정으로 로그인해주세요.</p>
+            <div class="form-field">
+              <label for="loginEmail" class="form-label">이메일</label>
+              <input id="loginEmail" type="email" class="form-input" placeholder="admin@example.com" />
+            </div>
+            <div class="form-field">
+              <label for="loginPassword" class="form-label">비밀번호</label>
+              <input id="loginPassword" type="password" class="form-input" placeholder="비밀번호" />
+            </div>
+            <button id="loginBtn" type="button" class="form-button">로그인</button>
+            <p id="loginStatus" class="form-status"></p>
+          </section>
 
-        <section id="editorSection" class="admin-panel" style="display: none">
-          <span class="form-label">DISCLOSURE EDITOR</span>
-          <h2>전자공시 등록</h2>
-          <p class="admin-panel__subtitle">필수 항목을 입력하고 "공시 등록" 버튼을 눌러 Firestore에 저장하세요.</p>
-          <div class="form-field">
-            <label for="title" class="form-label">제목</label>
-            <input id="title" type="text" class="form-input" placeholder="공시 제목을 입력하세요" />
-          </div>
-          <div class="form-field">
-            <label for="body" class="form-label">본문 (간단한 HTML 허용)</label>
-            <textarea id="body" class="form-textarea" placeholder="&lt;p&gt;본문 내용을 입력하세요&lt;/p&gt;"></textarea>
-            <p class="form-hint">&lt;p&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;a&gt; 등의 HTML 태그를 사용할 수 있습니다.</p>
-          </div>
-          <div class="form-field form-checkbox">
-            <input id="isPinned" type="checkbox" />
-            <label for="isPinned" class="form-label">상단 고정(공지)</label>
-          </div>
-          <div class="form-field">
-            <label for="tags" class="form-label">태그</label>
-            <input id="tags" type="text" class="form-input" placeholder="예: 정기공시, 사업보고" />
-            <p class="form-hint">쉼표(,)로 구분하여 입력하세요.</p>
-          </div>
-          <div class="form-field">
-            <button id="submitBtn" type="button" class="form-button">공시 등록</button>
-          </div>
-          <div class="form-field">
-            <button id="logoutBtn" type="button" class="form-button form-button--ghost">로그아웃</button>
-          </div>
-          <p id="statusMsg" class="form-status"></p>
-        </section>
+          <section id="editorSection" class="admin-panel" style="display: none">
+            <span class="form-label">DISCLOSURE EDITOR</span>
+            <h2>전자공시 등록</h2>
+            <p class="admin-panel__subtitle">필수 항목을 입력하고 "공시 등록" 버튼을 눌러 Firestore에 저장하세요.</p>
+            <div class="form-field">
+              <label for="title" class="form-label">제목</label>
+              <input id="title" type="text" class="form-input" placeholder="공시 제목을 입력하세요" />
+            </div>
+            <div class="form-field">
+              <label for="body" class="form-label">본문 (간단한 HTML 허용)</label>
+              <textarea id="body" class="form-textarea" placeholder="&lt;p&gt;본문 내용을 입력하세요&lt;/p&gt;"></textarea>
+              <p class="form-hint">&lt;p&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;a&gt; 등의 HTML 태그를 사용할 수 있습니다.</p>
+            </div>
+            <div class="form-field form-checkbox">
+              <input id="isPinned" type="checkbox" />
+              <label for="isPinned" class="form-label">상단 고정(공지)</label>
+            </div>
+            <div class="form-field">
+              <label for="tags" class="form-label">태그</label>
+              <input id="tags" type="text" class="form-input" placeholder="예: 정기공시, 사업보고" />
+              <p class="form-hint">쉼표(,)로 구분하여 입력하세요.</p>
+            </div>
+            <div class="form-field">
+              <button id="submitBtn" type="button" class="form-button">공시 등록</button>
+            </div>
+            <div class="form-field">
+              <button id="logoutBtn" type="button" class="form-button form-button--ghost">로그아웃</button>
+            </div>
+            <p id="statusMsg" class="form-status"></p>
+          </section>
+        </div>
       </section>
-    </main>
-  </div>
+    </div>
+  </main>
 
   <footer class="site-footer">
     <p>© 2025 Stemly. All rights reserved.</p>
@@ -218,9 +222,8 @@
         }
       }
     }
-    document.addEventListener('DOMContentLoaded', () => {
-      const langButtons = document.querySelectorAll('.lang-button[data-lang]');
-      if (!langButtons.length) return;
+    const langButtons = document.querySelectorAll('.lang-button[data-lang]');
+    if (langButtons.length) {
       const path = window.location.pathname;
       const locale = localePath(path);
       const currentLang = locale.isKo ? 'ko' : 'en';
@@ -243,8 +246,9 @@
           });
         }
       });
-    });
+    }
   </script>
+  <script src="./main.js"></script>
 
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";

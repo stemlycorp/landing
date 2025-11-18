@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stemly — 공시</title>
+  <title>Stemly — 공시 게시판</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./style.css" />
   <link rel="stylesheet" href="../css/disclosure.css" />
 </head>
 <body>
@@ -14,7 +15,7 @@
     <a class="logo" href="./index.html">Stemly</a>
     <nav class="primary-nav" aria-label="Stemly sections">
       <a href="./about.html">회사 소개</a>
-      <a href="./disclosure.html" aria-current="page">공시</a>
+      <a href="./disclosure.html">공시</a>
       <a href="mailto:contact@stemly.me">문의</a>
       <div class="lang-switch" aria-label="언어 선택">
         <span class="icon" aria-hidden="true">🌐</span>
@@ -24,32 +25,39 @@
     </nav>
   </header>
 
-  <div class="page-content">
-    <main>
+  <main>
+    <div class="page-content disclosure-page">
+      <canvas id="treeCanvas" aria-label="Fractal Tree Growth Animation"></canvas>
       <section class="page-lede">
         <h1>공시 게시판</h1>
         <p>실시간으로 제공되는 Stemly 전자공시입니다.</p>
       </section>
 
-      <section class="disclosure-layout" aria-live="polite">
-        <div>
-          <p class="loading" id="loading-indicator" style="display:none;">공시를 불러오는 중…</p>
-          <p class="error-state" data-error hidden>공시를 불러오지 못했습니다. 새로고침해 주세요.</p>
-          <p class="empty-state" id="empty-indicator" style="display:none;">등록된 공시가 없습니다.</p>
-          <ul class="disclosure-list" id="disclosure-list"></ul>
-        </div>
-        <article class="detail-card">
-          <div class="empty-state" data-empty>공시를 선택하면 내용을 확인할 수 있습니다.</div>
-          <div class="detail-meta" data-detail-meta hidden>
-            <span class="pill pinned" data-detail-pinned>상단 고정</span>
-            <span class="pill date" data-detail-date></span>
+      <section class="content-section disclosure-board">
+        <div class="disclosure-layout" aria-live="polite">
+          <div>
+            <p class="loading" id="loading-indicator" style="display:none;">공시를 불러오는 중…</p>
+            <p class="error-state" data-error hidden>공시를 불러오지 못했습니다. 새로고침해 주세요.</p>
+            <p class="empty-state" id="empty-indicator" style="display:none;">등록된 공시가 없습니다.</p>
+            <ul class="disclosure-list" id="disclosure-list"></ul>
           </div>
-          <h2 data-detail-title hidden></h2>
-          <div class="detail-body" data-detail-body hidden></div>
-        </article>
+          <article class="detail-card">
+            <div class="empty-state" data-empty>공시를 선택하면 내용을 확인할 수 있습니다.</div>
+            <div class="detail-meta" data-detail-meta hidden>
+              <span class="pill pinned" data-detail-pinned>상단 고정</span>
+              <span class="pill date" data-detail-date></span>
+            </div>
+            <h2 data-detail-title hidden></h2>
+            <div class="detail-body" data-detail-body hidden></div>
+          </article>
+        </div>
       </section>
-    </main>
-  </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Stemly. All rights reserved.</p>
+  </footer>
 
   <script>
     function localePath(path) {
@@ -77,9 +85,8 @@
         }
       }
     }
-    document.addEventListener('DOMContentLoaded', () => {
-      const langButtons = document.querySelectorAll('.lang-button[data-lang]');
-      if (!langButtons.length) return;
+    const langButtons = document.querySelectorAll('.lang-button[data-lang]');
+    if (langButtons.length) {
       const path = window.location.pathname;
       const locale = localePath(path);
       const currentLang = locale.isKo ? 'ko' : 'en';
@@ -102,8 +109,9 @@
           });
         }
       });
-    });
+    }
   </script>
+  <script src="./main.js"></script>
   <script type="module" src="../scripts/disclosure.js"></script>
 </body>
 </html>
