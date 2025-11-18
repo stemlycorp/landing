@@ -6,6 +6,9 @@ import {
 } from 'https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore.js';
 import { firebaseConfig } from './firebaseConfig.js';
 
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
 const isKorean = (document.documentElement.lang || '').toLowerCase().startsWith('ko');
 const COPY = {
   pinned: isKorean ? '상단 고정' : 'Pinned',
@@ -15,21 +18,18 @@ const COPY = {
     : 'Failed to load disclosures. Please try again.',
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-
-const listEl = document.querySelector('[data-disclosure-list]');
-const loadingEl = document.querySelector('[data-loading]');
-const errorEl = document.querySelector('[data-error]');
-const emptyEl = document.querySelector('[data-empty]');
-const detailTitleEl = document.querySelector('[data-detail-title]');
-const detailBodyEl = document.querySelector('[data-detail-body]');
-const detailDateEl = document.querySelector('[data-detail-date]');
-const detailPinnedEl = document.querySelector('[data-detail-pinned]');
-const detailMetaEl = document.querySelector('[data-detail-meta]');
-
 let disclosures = [];
 let activeDisclosureId = null;
+let listEl = null;
+let loadingEl = null;
+let emptyIndicatorEl = null;
+let errorEl = null;
+let detailTitleEl = null;
+let detailBodyEl = null;
+let detailDateEl = null;
+let detailPinnedEl = null;
+let detailMetaEl = null;
+let detailEmptyEl = null;
 
 function getTimestamp(value) {
   if (!value) return 0;
@@ -71,28 +71,34 @@ function setActiveDisclosure(id) {
     .querySelectorAll('[data-disclosure-id]')
     .forEach((el) => el.setAttribute('data-active', String(el.dataset.disclosureId === id)));
   if (!item) {
-    detailTitleEl.hidden = true;
-    detailBodyEl.hidden = true;
-    detailMetaEl.hidden = true;
-    if (emptyEl) emptyEl.hidden = false;
+    if (detailTitleEl) detailTitleEl.hidden = true;
+    if (detailBodyEl) detailBodyEl.hidden = true;
+    if (detailMetaEl) detailMetaEl.hidden = true;
+    if (detailEmptyEl) detailEmptyEl.hidden = false;
     return;
   }
-  if (emptyEl) emptyEl.hidden = true;
-  detailTitleEl.textContent = item.title || COPY.untitled;
-  detailBodyEl.textContent = item.body || item.content || '';
-  detailDateEl.textContent = formatDate(item.publishedAt) || '';
+  if (detailEmptyEl) detailEmptyEl.hidden = true;
+  if (detailTitleEl) detailTitleEl.textContent = item.title || COPY.untitled;
+  if (detailBodyEl) detailBodyEl.textContent = item.body || item.content || '';
+  if (detailDateEl) detailDateEl.textContent = formatDate(item.publishedAt) || '';
   const isPinned = Boolean(item.pinned);
-  detailPinnedEl.hidden = !isPinned;
-  detailDateEl.hidden = !detailDateEl.textContent;
-  detailMetaEl.hidden = !isPinned && !detailDateEl.textContent;
-  detailTitleEl.hidden = false;
-  detailBodyEl.hidden = false;
+  if (detailPinnedEl) detailPinnedEl.hidden = !isPinned;
+  if (detailDateEl) {
+    const hasDate = Boolean(detailDateEl.textContent);
+    detailDateEl.hidden = !hasDate;
+    if (detailMetaEl) detailMetaEl.hidden = !isPinned && !hasDate;
+  } else if (detailMetaEl) {
+    detailMetaEl.hidden = !isPinned;
+  }
+  if (detailTitleEl) detailTitleEl.hidden = false;
+  if (detailBodyEl) detailBodyEl.hidden = false;
 }
 
 function renderList(items) {
   if (!listEl) return;
-  listEl.replaceChildren();
+  listEl.innerHTML = '';
   items.forEach((item) => {
+    const li = document.createElement('li');
     const button = document.createElement('button');
     button.type = 'button';
     button.className = 'disclosure-item';
@@ -126,17 +132,17 @@ function renderList(items) {
     }
 
     button.append(title, summary, meta);
-    listEl.appendChild(button);
+    li.appendChild(button);
+    listEl.appendChild(li);
   });
-  listEl.hidden = items.length === 0;
-  if (items.length === 0 && emptyEl) {
-    emptyEl.hidden = false;
-  }
+  listEl.style.display = items.length ? '' : 'none';
+  if (emptyIndicatorEl) emptyIndicatorEl.style.display = items.length ? 'none' : 'block';
 }
 
 async function loadDisclosures() {
   try {
-    if (loadingEl) loadingEl.hidden = false;
+    if (loadingEl) loadingEl.style.display = 'block';
+    if (emptyIndicatorEl) emptyIndicatorEl.style.display = 'none';
     if (errorEl) errorEl.hidden = true;
     const snapshot = await getDocs(collection(db, 'disclosures'));
     disclosures = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -146,12 +152,15 @@ async function loadDisclosures() {
       if (pinnedA !== pinnedB) return pinnedB - pinnedA;
       return getTimestamp(b.publishedAt) - getTimestamp(a.publishedAt);
     });
-    renderList(disclosures);
-    if (disclosures.length) {
-      setActiveDisclosure(disclosures[0].id);
-    } else if (emptyEl) {
-      emptyEl.hidden = false;
+    if (listEl) listEl.innerHTML = '';
+    if (!disclosures.length) {
+      if (listEl) listEl.style.display = 'none';
+      setActiveDisclosure(null);
+      if (emptyIndicatorEl) emptyIndicatorEl.style.display = 'block';
+      return;
     }
+    renderList(disclosures);
+    setActiveDisclosure(disclosures[0].id);
   } catch (error) {
     console.error(error);
     if (errorEl) {
@@ -159,17 +168,30 @@ async function loadDisclosures() {
       errorEl.textContent = COPY.loadError;
     }
   } finally {
-    if (loadingEl) loadingEl.hidden = true;
+    if (loadingEl) loadingEl.style.display = 'none';
   }
 }
 
-if (listEl) {
-  listEl.addEventListener('click', (event) => {
-    const target = event.target.closest('[data-disclosure-id]');
-    if (!target) return;
-    const id = target.dataset.disclosureId;
-    if (id) setActiveDisclosure(id);
-  });
-}
+document.addEventListener('DOMContentLoaded', () => {
+  listEl = document.getElementById('disclosure-list');
+  loadingEl = document.getElementById('loading-indicator');
+  emptyIndicatorEl = document.getElementById('empty-indicator');
+  errorEl = document.querySelector('[data-error]');
+  detailTitleEl = document.querySelector('[data-detail-title]');
+  detailBodyEl = document.querySelector('[data-detail-body]');
+  detailDateEl = document.querySelector('[data-detail-date]');
+  detailPinnedEl = document.querySelector('[data-detail-pinned]');
+  detailMetaEl = document.querySelector('[data-detail-meta]');
+  detailEmptyEl = document.querySelector('[data-empty]');
 
-loadDisclosures();
+  if (listEl) {
+    listEl.addEventListener('click', (event) => {
+      const target = event.target.closest('[data-disclosure-id]');
+      if (!target) return;
+      const id = target.dataset.disclosureId;
+      if (id) setActiveDisclosure(id);
+    });
+  }
+
+  loadDisclosures();
+});

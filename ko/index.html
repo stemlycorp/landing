@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -16,7 +16,11 @@
       <a href="#">회사 소개</a>
       <a href="./disclosure.html">공시</a>
       <a href="mailto:contact@stemly.me">문의</a>
-      <a href="#" class="lang-btn" aria-label="Switch language">🌐 EN</a>
+      <div class="lang-switch" aria-label="언어 선택">
+        <span class="icon" aria-hidden="true">🌐</span>
+        <a class="lang-button" data-lang="en" href="#">EN</a>
+        <a class="lang-button" data-lang="ko" href="#">KR</a>
+      </div>
     </nav>
   </header>
 
@@ -48,32 +52,47 @@
         toEn: () => path.replace(/\/ko(\/|$)/, '/')
       };
     }
+    function normalizePath(p){
+      if (!p) return '/';
+      const prefixed = p.startsWith('/') ? p : '/' + p;
+      return prefixed.replace(/\/{2,}/g, '/');
+    }
     function switchLanguage(to) {
       const path = window.location.pathname;
       const locale = localePath(path);
       if (to === 'ko') {
         if (!locale.isKo) {
-          window.location.pathname = locale.toKo();
+          window.location.pathname = normalizePath(locale.toKo());
         }
       } else {
         if (locale.isKo) {
-          let result = locale.toEn();
-          if (!result.startsWith('/')) result = '/' + result;
-          window.location.pathname = result;
+          window.location.pathname = normalizePath(locale.toEn());
         }
       }
     }
-    const langBtn = document.querySelector('.lang-btn');
-    if (langBtn) {
+    const langButtons = document.querySelectorAll('.lang-button[data-lang]');
+    if (langButtons.length) {
       const path = window.location.pathname;
       const locale = localePath(path);
-      const isKo = locale.isKo;
-      langBtn.textContent = isKo ? '🌐 EN' : '🌐 KR';
-      const targetPath = isKo ? locale.toEn() : locale.toKo();
-      langBtn.setAttribute('href', targetPath);
-      langBtn.addEventListener('click', (event) => {
-        event.preventDefault();
-        switchLanguage(isKo ? 'en' : 'ko');
+      const currentLang = locale.isKo ? 'ko' : 'en';
+      langButtons.forEach((button) => {
+        const targetLang = button.dataset.lang;
+        const isActive = targetLang === currentLang;
+        button.classList.toggle('active', isActive);
+        if (isActive) {
+          button.removeAttribute('href');
+          button.setAttribute('aria-current', 'true');
+          button.setAttribute('tabindex', '-1');
+        } else {
+          const targetPath = normalizePath(targetLang === 'ko' ? locale.toKo() : locale.toEn());
+          button.setAttribute('href', targetPath);
+          button.removeAttribute('aria-current');
+          button.removeAttribute('tabindex');
+          button.addEventListener('click', (event) => {
+            event.preventDefault();
+            switchLanguage(targetLang);
+          });
+        }
       });
     }
   </script>

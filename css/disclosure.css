@@ -23,36 +23,91 @@ body{
   background: radial-gradient(circle at 70% 20%, #0f1c36 0%, #04070d 60%);
   display: flex;
   flex-direction: column;
+}
+
+.page-content{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
   padding: clamp(24px, 4vw, 64px);
   gap: clamp(18px, 4vh, 32px);
 }
 
-header{
+.site-header{
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 24px;
   flex-wrap: wrap;
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  padding: 18px clamp(16px, 5vw, 64px);
+  background: rgba(6,9,15,0.8);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  backdrop-filter: blur(22px);
 }
 
 .logo{
   font-weight: 800;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.08em;
   text-transform: uppercase;
 }
 
-.nav-link{
+.primary-nav{
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.primary-nav a{
   color: var(--fg);
-  opacity: 0.75;
   text-decoration: none;
-  border: 1px solid var(--border);
-  padding: 8px 16px;
-  border-radius: 999px;
-  font-size: 13px;
+  opacity: 0.85;
   transition: opacity 0.2s ease;
 }
-.nav-link:hover{
+.primary-nav a:hover{
   opacity: 1;
+}
+
+.lang-switch{
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid rgba(255,255,255,0.12);
+  background: rgba(10,16,28,0.7);
+  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+}
+
+.lang-button{
+  text-decoration: none;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: rgba(255,255,255,0.6);
+  padding: 6px 12px;
+  border-radius: 999px;
+  transition: color 0.2s ease, background 0.2s ease, opacity 0.2s ease;
+}
+
+.lang-button.active{
+  color: var(--fg);
+  background: rgba(255,255,255,0.15);
+  pointer-events: none;
+}
+
+.lang-button:hover{
+  opacity: 1;
+}
+
+.lang-switch .icon{
+  font-size: 14px;
+  opacity: 0.7;
 }
 
 main{
@@ -61,7 +116,7 @@ main{
 
 .disclosure-layout{
   display: grid;
-  grid-template-columns: minmax(260px, 320px) minmax(0, 1fr);
+  grid-template-columns: minmax(280px, 360px) minmax(0, 1fr);
   gap: clamp(18px, 4vw, 40px);
 }
 
@@ -155,8 +210,9 @@ main{
 .detail-body{
   white-space: pre-wrap;
   line-height: 1.6;
-  color: rgba(255,255,255,0.85);
+  color: #cfd7df;
   font-size: 15px;
+  margin-top: 10px;
 }
 
 .empty-state,

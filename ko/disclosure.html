@@ -10,12 +10,18 @@
   <link rel="stylesheet" href="../css/disclosure.css" />
 </head>
 <body>
-  <header>
+  <header class="site-header" aria-label="Primary">
     <div class="logo">Stemly</div>
-    <div>
-      <a class="nav-link" href="./index.html">← 메인으로</a>
-      <a class="nav-link" href="../disclosure.html">🌐 English</a>
-    </div>
+    <nav class="primary-nav" aria-label="Stemly sections">
+      <a href="./index.html">회사 소개</a>
+      <a href="./disclosure.html" aria-current="page">공시</a>
+      <a href="mailto:contact@stemly.me">문의</a>
+      <div class="lang-switch" aria-label="언어 선택">
+        <span class="icon" aria-hidden="true">🌐</span>
+        <a class="lang-button" data-lang="en" href="#">EN</a>
+        <a class="lang-button" data-lang="ko" href="#">KR</a>
+      </div>
+    </nav>
   </header>
 
   <main>
@@ -24,9 +30,10 @@
 
     <section class="disclosure-layout" aria-live="polite">
       <div>
-        <p class="loading" data-loading>공시를 불러오는 중…</p>
+        <p class="loading" id="loading-indicator" style="display:none;">공시를 불러오는 중…</p>
         <p class="error-state" data-error hidden>공시를 불러오지 못했습니다. 새로고침해 주세요.</p>
-        <div class="disclosure-list" data-disclosure-list hidden></div>
+        <p class="empty-state" id="empty-indicator" style="display:none;">등록된 공시가 없습니다.</p>
+        <ul class="disclosure-list" id="disclosure-list"></ul>
       </div>
       <article class="detail-card">
         <div class="empty-state" data-empty>공시를 선택하면 내용을 확인할 수 있습니다.</div>
@@ -40,6 +47,59 @@
     </section>
   </main>
 
+  <script>
+    function localePath(path) {
+      return {
+        isKo: /\/ko(\/|$)/.test(path),
+        toKo: () => path.replace(/\/([^\/]*)$/, '/ko/$1'),
+        toEn: () => path.replace(/\/ko(\/|$)/, '/')
+      };
+    }
+    function normalizePath(p){
+      if (!p) return '/';
+      const prefixed = p.startsWith('/') ? p : '/' + p;
+      return prefixed.replace(/\/{2,}/g, '/');
+    }
+    function switchLanguage(to) {
+      const path = window.location.pathname;
+      const locale = localePath(path);
+      if (to === 'ko') {
+        if (!locale.isKo) {
+          window.location.pathname = normalizePath(locale.toKo());
+        }
+      } else {
+        if (locale.isKo) {
+          window.location.pathname = normalizePath(locale.toEn());
+        }
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const langButtons = document.querySelectorAll('.lang-button[data-lang]');
+      if (!langButtons.length) return;
+      const path = window.location.pathname;
+      const locale = localePath(path);
+      const currentLang = locale.isKo ? 'ko' : 'en';
+      langButtons.forEach((button) => {
+        const targetLang = button.dataset.lang;
+        const isActive = targetLang === currentLang;
+        button.classList.toggle('active', isActive);
+        if (isActive) {
+          button.removeAttribute('href');
+          button.setAttribute('aria-current', 'true');
+          button.setAttribute('tabindex', '-1');
+        } else {
+          const targetPath = normalizePath(targetLang === 'ko' ? locale.toKo() : locale.toEn());
+          button.setAttribute('href', targetPath);
+          button.removeAttribute('aria-current');
+          button.removeAttribute('tabindex');
+          button.addEventListener('click', (event) => {
+            event.preventDefault();
+            switchLanguage(targetLang);
+          });
+        }
+      });
+    });
+  </script>
   <script type="module" src="../scripts/disclosure.js"></script>
 </body>
 </html>
