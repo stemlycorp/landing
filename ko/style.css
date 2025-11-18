@@ -1,0 +1,207 @@
+:root{
+  --bg: #06090f;
+  --fg: #e6f3ff;
+  --accent: #60a5fa;
+}
+
+*{ box-sizing: border-box; }
+html, body { min-height: 100%; }
+body{
+  margin:0;
+  font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
+  color: var(--fg);
+  background: radial-gradient(1200px 800px at 70% 30%, #0b1220 0%, #06090f 70%);
+  min-height: 100dvh;
+  overflow-x: hidden;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.site-header{
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 18px clamp(16px, 5vw, 64px);
+  background: rgba(6,9,15,0.8);
+  backdrop-filter: blur(22px);
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+
+.logo{
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.primary-nav{
+  display: flex;
+  gap: 24px;
+  align-items: center;
+  font-size: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.primary-nav a{
+  color: var(--fg);
+  text-decoration: none;
+  opacity: 0.85;
+}
+.primary-nav a:hover{ opacity: 1; }
+.primary-nav .lang-btn:hover{ opacity: 0.7; }
+
+.hero{
+  position: relative;
+  width: 100%;
+  flex: 1;
+  height: auto;
+  min-height: clamp(520px, 75vh, 960px);
+}
+
+#treeCanvas{
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  touch-action: none;
+  transition: opacity .25s ease;
+}
+#treeCanvas.tree-hidden{
+  opacity: 0;
+  pointer-events: none;
+}
+
+.overlay{
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  pointer-events: none;
+  padding-top: clamp(28px, 5vh, 110px);
+  padding-right: clamp(24px, 5vw, 90px);
+  padding-bottom: clamp(20px, 4vh, 80px);
+  padding-left: clamp(32px, 7vw, 160px);
+  gap: clamp(20px, 4vw, 40px);
+}
+
+.hero-headlines{
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-width: min(540px, 60vw);
+  padding-left: clamp(10px, 2vw, 36px);
+}
+.hero-headlines p{
+  opacity: 0.8;
+}
+
+.overlay.minimalist{
+  gap: clamp(16px, 4vw, 48px);
+}
+.overlay.minimalist h1{
+  font-size: clamp(32px, 8vw, 80px);
+  margin: 0;
+  line-height: 1.04;
+  text-shadow: 0 5px 30px rgba(0,0,0,0.45);
+}
+.overlay.minimalist p{
+  margin: 0;
+  font-size: clamp(14px, 3vw, 24px);
+  opacity: 0.8;
+  text-shadow: 0 5px 20px rgba(0,0,0,0.35);
+}
+
+.brand-tile{
+  align-self: flex-end;
+  padding: clamp(16px, 2.3vw, 26px) clamp(24px, 3.8vw, 40px);
+  border-radius: 32px;
+  border: 1px solid rgba(255,255,255,0.1);
+  background: linear-gradient(145deg, rgba(7,12,18,0.82), rgba(7,12,18,0.58));
+  box-shadow: 0 24px 70px rgba(0,0,0,0.48);
+  text-align: right;
+  backdrop-filter: blur(8px);
+  pointer-events: none;
+  margin-top: clamp(12px, 4vh, 60px);
+  margin-right: clamp(12px, 4vw, 80px);
+}
+.brand-letters{
+  font-size: clamp(24px, 4.4vw, 48px);
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+.brand-stem{
+  color: #7feac4;
+}
+.brand-ly{
+  color: #78b7f0;
+}
+.brand-caption{
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.4em;
+  opacity: 0.7;
+  line-height: 1;
+}
+
+
+
+.site-footer{
+  padding: 8px clamp(16px, 4vw, 64px);
+  background: rgba(4,6,12,0.78);
+  border-top: 1px solid rgba(255,255,255,0.04);
+  font-size: 11px;
+  opacity: 0.7;
+  text-align: center;
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  #treeCanvas{ animation: none !important; }
+}
+
+@media (max-width: 640px){
+  .site-header{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .primary-nav{
+    flex-wrap: wrap;
+    gap: 12px 18px;
+    font-size: 12px;
+    letter-spacing: 0.5px;
+  }
+  .hero{
+    height: auto;
+    min-height: 80vh;
+  }
+  .overlay{
+    padding: clamp(24px, 12vh, 110px) clamp(18px, 8vw, 52px);
+  }
+  .hero-headlines{
+    padding-left: clamp(8px, 4vw, 28px);
+    max-width: 100%;
+  }
+  .overlay.minimalist{
+    gap: clamp(18px, 6vw, 64px);
+  }
+  .brand-tile{
+    align-self: flex-start;
+    text-align: left;
+  }
+  .overlay h1{
+    font-size: clamp(28px, 9vw, 44px);
+  }
+  .overlay p{
+    font-size: clamp(14px, 4vw, 18px);
+  }
+}

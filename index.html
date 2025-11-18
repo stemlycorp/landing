@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stemly — Fractal Tree Growth</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/style.css" />
+</head>
+<body>
+  <header class="site-header" aria-label="Primary">
+    <div class="logo">Stemly</div>
+    <nav class="primary-nav" aria-label="Stemly sections">
+      <a href="#">About Us</a>
+      <a href="#">Disclosure</a>
+      <a href="mailto:contact@stemly.me">Contact</a>
+      <a href="#" class="lang-btn" aria-label="Switch language">🌐 EN</a>
+    </nav>
+  </header>
+
+  <main class="hero">
+    <canvas id="treeCanvas" aria-label="Fractal Tree Growth Animation"></canvas>
+    <div class="overlay minimalist">
+      <div class="hero-headlines">
+        <h1>Engineering<br>Meets<br>Intelligence.</h1>
+        <p>AI · Data · Software — built right.</p>
+      </div>
+      <div class="brand-tile" aria-hidden="true">
+        <span class="brand-letters">
+          <span class="brand-stem">Stem</span><span class="brand-ly">ly</span>
+        </span>
+        <span class="brand-caption">Adaptive Intelligence Works</span>
+      </div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <p>© 2025 Stemly. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function localePath(path) {
+      return {
+        isKo: /\/ko(\/|$)/.test(path),
+        toKo: () => path.replace(/\/([^\/]*)$/, '/ko/$1'),
+        toEn: () => path.replace(/\/ko(\/|$)/, '/')
+      };
+    }
+    function switchLanguage(to) {
+      const path = window.location.pathname;
+      const locale = localePath(path);
+      if (to === 'ko') {
+        if (!locale.isKo) {
+          window.location.pathname = locale.toKo();
+        }
+      } else {
+        if (locale.isKo) {
+          let result = locale.toEn();
+          if (!result.startsWith('/')) result = '/' + result;
+          window.location.pathname = result;
+        }
+      }
+    }
+    const langBtn = document.querySelector('.lang-btn');
+    if (langBtn) {
+      const path = window.location.pathname;
+      const locale = localePath(path);
+      const isKo = locale.isKo;
+      langBtn.textContent = isKo ? '🌐 EN' : '🌐 KR';
+      const targetPath = isKo ? locale.toEn() : locale.toKo();
+      langBtn.setAttribute('href', targetPath);
+      langBtn.addEventListener('click', (event) => {
+        event.preventDefault();
+        switchLanguage(isKo ? 'en' : 'ko');
+      });
+    }
+  </script>
+  <script src="./scripts/main.js"></script>
+</body>
+</html>
