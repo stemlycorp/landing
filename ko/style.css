@@ -36,6 +36,14 @@ body{
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+  font-size: 22px;
+  color: var(--fg);
+  text-decoration: none;
+  display: inline-block;
+}
+.logo:focus-visible{
+  outline: 2px solid rgba(255,255,255,0.6);
+  outline-offset: 4px;
 }
 
 .primary-nav{
@@ -53,6 +61,67 @@ body{
   opacity: 0.85;
 }
 .primary-nav a:hover{ opacity: 1; }
+
+.page-content{
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: clamp(24px, 4vw, 64px);
+  gap: clamp(18px, 4vh, 32px);
+}
+
+.page-lede{
+  padding-top: clamp(28px, 5vh, 110px);
+  padding-right: clamp(24px, 5vw, 90px);
+  padding-bottom: clamp(20px, 4vh, 60px);
+  padding-left: clamp(32px, 7vw, 160px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.page-lede h1{
+  margin: 0;
+  font-size: clamp(32px, 8vw, 80px);
+  line-height: 1.05;
+}
+.page-lede p{
+  margin: 0;
+  opacity: 0.8;
+  font-size: clamp(14px, 3vw, 24px);
+}
+
+.content-section{
+  padding-left: clamp(32px, 7vw, 160px);
+  padding-right: clamp(24px, 6vw, 120px);
+  padding-bottom: clamp(20px, 5vh, 80px);
+  display: grid;
+  gap: clamp(20px, 3vw, 48px);
+}
+
+.content-grid{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: clamp(16px, 3vw, 36px);
+}
+
+.content-card{
+  border-radius: 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+  background: linear-gradient(145deg, rgba(7,12,20,0.85), rgba(5,9,16,0.7));
+  padding: clamp(20px, 3vw, 32px);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.content-card h3{
+  margin: 0;
+  font-size: 18px;
+}
+.content-card p{
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.6;
+}
 .lang-switch{
   display: inline-flex;
   align-items: center;

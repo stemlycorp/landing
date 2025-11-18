@@ -1,22 +1,22 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Stemly — 공시</title>
+  <title>Stemly — About Us</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="../css/disclosure.css" />
+  <link rel="stylesheet" href="./css/style.css" />
 </head>
 <body>
   <header class="site-header" aria-label="Primary">
     <a class="logo" href="./index.html">Stemly</a>
     <nav class="primary-nav" aria-label="Stemly sections">
-      <a href="./about.html">회사 소개</a>
-      <a href="./disclosure.html" aria-current="page">공시</a>
-      <a href="mailto:contact@stemly.me">문의</a>
-      <div class="lang-switch" aria-label="언어 선택">
+      <a href="./about.html" aria-current="page">About Us</a>
+      <a href="./disclosure.html">Disclosure</a>
+      <a href="mailto:contact@stemly.me">Contact</a>
+      <div class="lang-switch" aria-label="Language selector">
         <span class="icon" aria-hidden="true">🌐</span>
         <a class="lang-button" data-lang="en" href="#">EN</a>
         <a class="lang-button" data-lang="ko" href="#">KR</a>
@@ -27,26 +27,30 @@
   <div class="page-content">
     <main>
       <section class="page-lede">
-        <h1>공시 게시판</h1>
-        <p>실시간으로 제공되는 Stemly 전자공시입니다.</p>
+        <h1>Intelligence Built For Real Operations.</h1>
+        <p>Stemly is an engineering-driven studio delivering AI, data, and software systems for organizations that need clarity, velocity, and trust.</p>
       </section>
 
-      <section class="disclosure-layout" aria-live="polite">
-        <div>
-          <p class="loading" id="loading-indicator" style="display:none;">공시를 불러오는 중…</p>
-          <p class="error-state" data-error hidden>공시를 불러오지 못했습니다. 새로고침해 주세요.</p>
-          <p class="empty-state" id="empty-indicator" style="display:none;">등록된 공시가 없습니다.</p>
-          <ul class="disclosure-list" id="disclosure-list"></ul>
+      <section class="content-section">
+        <div class="content-grid">
+          <article class="content-card">
+            <h3>Applied Engineering</h3>
+            <p>We design resilient data and software pipelines, pairing advanced models with modern infrastructure so teams can act on live signals—not stale snapshots.</p>
+          </article>
+          <article class="content-card">
+            <h3>Operational AI</h3>
+            <p>From forecasting to decision support, we build tailored AI that integrates with your tools, respects governance, and keeps humans in control.</p>
+          </article>
+          <article class="content-card">
+            <h3>Delivery At Speed</h3>
+            <p>Small autonomous squads partner directly with stakeholders, shipping iterative value with measurable outcomes instead of prolonged roadmaps.</p>
+          </article>
         </div>
-        <article class="detail-card">
-          <div class="empty-state" data-empty>공시를 선택하면 내용을 확인할 수 있습니다.</div>
-          <div class="detail-meta" data-detail-meta hidden>
-            <span class="pill pinned" data-detail-pinned>상단 고정</span>
-            <span class="pill date" data-detail-date></span>
-          </div>
-          <h2 data-detail-title hidden></h2>
-          <div class="detail-body" data-detail-body hidden></div>
-        </article>
+        <div class="content-card">
+          <h3>What’s next</h3>
+          <p>We collaborate with ambitious teams across finance, energy, healthcare, and frontier tech. If you’re planning a launch, audit, or transformation, tell us what needs to work flawlessly.</p>
+          <p><a href="mailto:contact@stemly.me">contact@stemly.me</a></p>
+        </div>
       </section>
     </main>
   </div>
@@ -104,6 +108,5 @@
       });
     });
   </script>
-  <script type="module" src="../scripts/disclosure.js"></script>
 </body>
 </html>
