@@ -123,6 +123,48 @@ body{
   font-size: clamp(14px, 3vw, 24px);
 }
 
+.hero-title{
+  margin: 0;
+  line-height: 1.05;
+}
+
+.hero-subtitle{
+  margin: 0;
+  opacity: 0.85;
+  line-height: 1.6;
+  font-size: clamp(1rem, 2.8vw, 1.35rem);
+}
+
+.hero-title-en,
+.hero-title-ko{
+  max-width: 24ch;
+  word-break: keep-all;
+}
+
+.hero-subtitle-en,
+.hero-subtitle-ko{
+  max-width: 40rem;
+  word-break: keep-all;
+}
+
+.about-page .hero-title{
+  font-size: clamp(2.6rem, 5vw, 3.4rem);
+}
+
+.about-page .page-lede{
+  padding-top: clamp(48px, 9vh, 140px);
+  padding-bottom: clamp(28px, 6vh, 90px);
+}
+
+@media (max-width: 768px){
+  .hero-title-en,
+  .hero-title-ko,
+  .hero-subtitle-en,
+  .hero-subtitle-ko{
+    max-width: none;
+  }
+}
+
 .content-section{
   padding-left: clamp(32px, 7vw, 160px);
   padding-right: clamp(24px, 6vw, 120px);
