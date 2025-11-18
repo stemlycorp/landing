@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stemly — 공시</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/disclosure.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">Stemly</div>
+    <div>
+      <a class="nav-link" href="./index.html">← 메인으로</a>
+      <a class="nav-link" href="../disclosure.html">🌐 English</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>공시 게시판</h1>
+    <p>실시간으로 제공되는 Stemly 전자공시입니다.</p>
+
+    <section class="disclosure-layout" aria-live="polite">
+      <div>
+        <p class="loading" data-loading>공시를 불러오는 중…</p>
+        <p class="error-state" data-error hidden>공시를 불러오지 못했습니다. 새로고침해 주세요.</p>
+        <div class="disclosure-list" data-disclosure-list hidden></div>
+      </div>
+      <article class="detail-card">
+        <div class="empty-state" data-empty>공시를 선택하면 내용을 확인할 수 있습니다.</div>
+        <div class="detail-meta" data-detail-meta hidden>
+          <span class="pill pinned" data-detail-pinned>상단 고정</span>
+          <span class="pill date" data-detail-date></span>
+        </div>
+        <h2 data-detail-title hidden></h2>
+        <div class="detail-body" data-detail-body hidden></div>
+      </article>
+    </section>
+  </main>
+
+  <script type="module" src="../scripts/disclosure.js"></script>
+</body>
+</html>

@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stemly — Disclosures</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./css/disclosure.css" />
+</head>
+<body>
+  <header>
+    <div class="logo">Stemly</div>
+    <div>
+      <a class="nav-link" href="./index.html">← Back to main</a>
+      <a class="nav-link" href="./ko/disclosure.html">🌐 한국어</a>
+    </div>
+  </header>
+
+  <main>
+    <h1>Company Disclosures</h1>
+    <p>Real-time electronic disclosures published directly by Stemly.</p>
+
+    <section class="disclosure-layout" aria-live="polite">
+      <div>
+        <p class="loading" data-loading>Loading disclosures…</p>
+        <p class="error-state" data-error hidden>Failed to load disclosures. Refresh the page.</p>
+        <div class="disclosure-list" data-disclosure-list hidden></div>
+      </div>
+      <article class="detail-card">
+        <div class="empty-state" data-empty>Pick a disclosure to see the details.</div>
+        <div class="detail-meta" data-detail-meta hidden>
+          <span class="pill pinned" data-detail-pinned>Pinned</span>
+          <span class="pill date" data-detail-date></span>
+        </div>
+        <h2 data-detail-title hidden></h2>
+        <div class="detail-body" data-detail-body hidden></div>
+      </article>
+    </section>
+  </main>
+
+  <script type="module" src="./scripts/disclosure.js"></script>
+</body>
+</html>
