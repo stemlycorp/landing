@@ -1,0 +1,399 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Stemly — 전자공시 관리</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="../css/disclosure.css" />
+  <style>
+    .admin-page .admin-lede {
+      padding-bottom: clamp(12px, 4vh, 32px);
+    }
+    .admin-panels {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: clamp(20px, 4vw, 48px);
+      padding-left: clamp(32px, 7vw, 160px);
+      padding-right: clamp(24px, 6vw, 120px);
+      padding-bottom: clamp(20px, 5vh, 80px);
+    }
+    @media (min-width: 1024px) {
+      .admin-panels {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+    }
+    .admin-panel {
+      border-radius: 28px;
+      border: 1px solid var(--border, rgba(255,255,255,0.08));
+      background: linear-gradient(145deg, rgba(9,15,28,0.92), rgba(6,10,18,0.82));
+      padding: clamp(20px, 3vw, 40px);
+      box-shadow: 0 28px 90px rgba(3, 6, 13, 0.55);
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+    .admin-panel h2 {
+      margin: 0;
+      font-size: clamp(20px, 3vw, 28px);
+    }
+    .admin-panel p {
+      margin: 0;
+    }
+    .admin-panel__subtitle {
+      opacity: 0.7;
+      font-size: 0.95rem;
+    }
+    .form-field {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .form-label {
+      font-size: 0.85rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: rgba(255,255,255,0.75);
+    }
+    .form-input,
+    .form-textarea {
+      width: 100%;
+      border-radius: 16px;
+      border: 1px solid var(--border, rgba(255,255,255,0.1));
+      background: rgba(6,10,20,0.85);
+      padding: 12px 16px;
+      font: inherit;
+      color: var(--fg, #f5f8ff);
+    }
+    .form-textarea {
+      min-height: 220px;
+      resize: vertical;
+    }
+    .form-hint {
+      font-size: 0.8rem;
+      color: rgba(255,255,255,0.6);
+      margin-top: 4px;
+    }
+    .form-checkbox {
+      flex-direction: row;
+      align-items: center;
+      gap: 10px;
+    }
+    .form-checkbox input {
+      width: auto;
+    }
+    .form-button {
+      border: none;
+      border-radius: 999px;
+      padding: 12px 26px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      cursor: pointer;
+      background: var(--accent, #66a5ff);
+      color: #03060d;
+      transition: opacity 0.2s ease;
+    }
+    .form-button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .form-button--ghost {
+      background: transparent;
+      color: var(--fg, #f5f8ff);
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+    .form-status {
+      min-height: 22px;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.7);
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header" aria-label="Primary">
+    <a class="logo" href="./index.html">Stemly</a>
+    <nav class="primary-nav" aria-label="Stemly sections">
+      <a href="./about.html">회사 소개</a>
+      <a href="./disclosure.html" aria-current="page">공시</a>
+      <a href="mailto:contact@stemly.me">문의</a>
+      <div class="lang-switch" aria-label="언어 선택">
+        <span class="icon" aria-hidden="true">🌐</span>
+        <a class="lang-button" data-lang="en" href="#">EN</a>
+        <a class="lang-button" data-lang="ko" href="#">KR</a>
+      </div>
+    </nav>
+  </header>
+
+  <div class="page-content admin-page">
+    <main>
+      <section class="page-lede admin-lede">
+        <h1 class="hero-title hero-title-ko">전자공시 관리</h1>
+        <p class="hero-subtitle hero-subtitle-ko">
+          Stemly 내부 팀을 위한 전자공시 등록 페이지입니다. 로그인 후 공시를 등록하거나 수정할 수 있습니다.
+        </p>
+      </section>
+
+      <section class="admin-panels" aria-live="polite">
+        <section id="loginSection" class="admin-panel">
+          <span class="form-label">INTERNAL ACCESS</span>
+          <h2>전자공시 관리 로그인</h2>
+          <p class="admin-panel__subtitle">등록 권한이 있는 Stemly 이메일 계정으로 로그인해주세요.</p>
+          <div class="form-field">
+            <label for="loginEmail" class="form-label">이메일</label>
+            <input id="loginEmail" type="email" class="form-input" placeholder="admin@example.com" />
+          </div>
+          <div class="form-field">
+            <label for="loginPassword" class="form-label">비밀번호</label>
+            <input id="loginPassword" type="password" class="form-input" placeholder="비밀번호" />
+          </div>
+          <button id="loginBtn" type="button" class="form-button">로그인</button>
+          <p id="loginStatus" class="form-status"></p>
+        </section>
+
+        <section id="editorSection" class="admin-panel" style="display: none">
+          <span class="form-label">DISCLOSURE EDITOR</span>
+          <h2>전자공시 등록</h2>
+          <p class="admin-panel__subtitle">필수 항목을 입력하고 "공시 등록" 버튼을 눌러 Firestore에 저장하세요.</p>
+          <div class="form-field">
+            <label for="title" class="form-label">제목</label>
+            <input id="title" type="text" class="form-input" placeholder="공시 제목을 입력하세요" />
+          </div>
+          <div class="form-field">
+            <label for="body" class="form-label">본문 (간단한 HTML 허용)</label>
+            <textarea id="body" class="form-textarea" placeholder="&lt;p&gt;본문 내용을 입력하세요&lt;/p&gt;"></textarea>
+            <p class="form-hint">&lt;p&gt;, &lt;strong&gt;, &lt;ul&gt;, &lt;li&gt;, &lt;a&gt; 등의 HTML 태그를 사용할 수 있습니다.</p>
+          </div>
+          <div class="form-field form-checkbox">
+            <input id="isPinned" type="checkbox" />
+            <label for="isPinned" class="form-label">상단 고정(공지)</label>
+          </div>
+          <div class="form-field">
+            <label for="tags" class="form-label">태그</label>
+            <input id="tags" type="text" class="form-input" placeholder="예: 정기공시, 사업보고" />
+            <p class="form-hint">쉼표(,)로 구분하여 입력하세요.</p>
+          </div>
+          <div class="form-field">
+            <button id="submitBtn" type="button" class="form-button">공시 등록</button>
+          </div>
+          <div class="form-field">
+            <button id="logoutBtn" type="button" class="form-button form-button--ghost">로그아웃</button>
+          </div>
+          <p id="statusMsg" class="form-status"></p>
+        </section>
+      </section>
+    </main>
+  </div>
+
+  <footer class="site-footer">
+    <p>© 2025 Stemly. All rights reserved.</p>
+  </footer>
+
+  <script>
+    function localePath(path) {
+      return {
+        isKo: /\/ko(\/|$)/.test(path),
+        toKo: () => path.replace(/\/([^\/]*)$/, '/ko/$1'),
+        toEn: () => path.replace(/\/ko(\/|$)/, '/')
+      };
+    }
+    function normalizePath(p){
+      if (!p) return '/';
+      const prefixed = p.startsWith('/') ? p : '/' + p;
+      return prefixed.replace(/\/{2,}/g, '/');
+    }
+    function switchLanguage(to) {
+      const path = window.location.pathname;
+      const locale = localePath(path);
+      if (to === 'ko') {
+        if (!locale.isKo) {
+          window.location.pathname = normalizePath(locale.toKo());
+        }
+      } else {
+        if (locale.isKo) {
+          window.location.pathname = normalizePath(locale.toEn());
+        }
+      }
+    }
+    document.addEventListener('DOMContentLoaded', () => {
+      const langButtons = document.querySelectorAll('.lang-button[data-lang]');
+      if (!langButtons.length) return;
+      const path = window.location.pathname;
+      const locale = localePath(path);
+      const currentLang = locale.isKo ? 'ko' : 'en';
+      langButtons.forEach((button) => {
+        const targetLang = button.dataset.lang;
+        const isActive = targetLang === currentLang;
+        button.classList.toggle('active', isActive);
+        if (isActive) {
+          button.removeAttribute('href');
+          button.setAttribute('aria-current', 'true');
+          button.setAttribute('tabindex', '-1');
+        } else {
+          const targetPath = normalizePath(targetLang === 'ko' ? locale.toKo() : locale.toEn());
+          button.setAttribute('href', targetPath);
+          button.removeAttribute('aria-current');
+          button.removeAttribute('tabindex');
+          button.addEventListener('click', (event) => {
+            event.preventDefault();
+            switchLanguage(targetLang);
+          });
+        }
+      });
+    });
+  </script>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-app.js";
+    import {
+      getFirestore,
+      collection,
+      addDoc,
+      serverTimestamp,
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-firestore.js";
+    import {
+      getAuth,
+      signInWithEmailAndPassword,
+      signOut,
+      onAuthStateChanged,
+    } from "https://www.gstatic.com/firebasejs/12.6.0/firebase-auth.js";
+
+    import { firebaseConfig } from "../scripts/firebaseConfig.js";
+
+    const app = initializeApp(firebaseConfig);
+    const db = getFirestore(app);
+    const auth = getAuth(app);
+
+    const loginSection = document.getElementById("loginSection");
+    const editorSection = document.getElementById("editorSection");
+    const loginEmailInput = document.getElementById("loginEmail");
+    const loginPasswordInput = document.getElementById("loginPassword");
+    const loginBtn = document.getElementById("loginBtn");
+    const loginStatus = document.getElementById("loginStatus");
+    const logoutBtn = document.getElementById("logoutBtn");
+
+    const titleInput = document.getElementById("title");
+    const bodyInput = document.getElementById("body");
+    const isPinnedInput = document.getElementById("isPinned");
+    const tagsInput = document.getElementById("tags");
+    const submitBtn = document.getElementById("submitBtn");
+    const statusMsg = document.getElementById("statusMsg");
+
+    const showLoginView = () => {
+      loginSection.style.display = "block";
+      editorSection.style.display = "none";
+    };
+
+    const showEditorView = () => {
+      loginSection.style.display = "none";
+      editorSection.style.display = "block";
+    };
+
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        showEditorView();
+        loginStatus.textContent = "";
+      } else {
+        showLoginView();
+        loginStatus.textContent = "";
+      }
+    });
+
+    loginBtn.addEventListener("click", async () => {
+      const email = loginEmailInput.value.trim();
+      const password = loginPasswordInput.value.trim();
+
+      if (!email || !password) {
+        loginStatus.style.color = "#b42318";
+        loginStatus.textContent = "이메일과 비밀번호를 모두 입력해주세요.";
+        return;
+      }
+
+      loginBtn.disabled = true;
+      loginStatus.style.color = "#0b5c0b";
+      loginStatus.textContent = "로그인 중…";
+
+      try {
+        await signInWithEmailAndPassword(auth, email, password);
+        loginStatus.style.color = "#0b5c0b";
+        loginStatus.textContent = "로그인 성공.";
+      } catch (err) {
+        console.error("Login failed:", err);
+        loginStatus.style.color = "#b42318";
+        loginStatus.textContent = "로그인 실패: " + err.message;
+      } finally {
+        loginBtn.disabled = false;
+      }
+    });
+
+    if (logoutBtn) {
+      logoutBtn.addEventListener("click", async () => {
+        try {
+          await signOut(auth);
+        } catch (err) {
+          console.error("Logout failed:", err);
+        }
+      });
+    }
+
+    const toPlainText = (html) => {
+      const tempDiv = document.createElement("div");
+      tempDiv.innerHTML = html;
+      return tempDiv.textContent || tempDiv.innerText || "";
+    };
+
+    submitBtn.addEventListener("click", async () => {
+      const title = titleInput.value.trim();
+      const bodyHtml = bodyInput.value.trim();
+      const isPinned = isPinnedInput.checked;
+      const tagsRaw = tagsInput.value.split(",");
+
+      if (!title) {
+        statusMsg.textContent = "제목을 입력해주세요.";
+        titleInput.focus();
+        return;
+      }
+      if (!bodyHtml) {
+        statusMsg.textContent = "본문을 입력해주세요.";
+        bodyInput.focus();
+        return;
+      }
+
+      const bodyPlain = toPlainText(bodyHtml);
+      const tags = tagsRaw
+        .map((tag) => tag.trim())
+        .filter((tag) => tag.length > 0);
+
+      submitBtn.disabled = true;
+      statusMsg.style.color = "#0b5c0b";
+      statusMsg.textContent = "등록 중…";
+
+      try {
+        await addDoc(collection(db, "disclosures"), {
+          title,
+          bodyHtml,
+          bodyPlain,
+          isPinned,
+          tags,
+          createdAt: serverTimestamp(),
+          updatedAt: serverTimestamp(),
+        });
+        titleInput.value = "";
+        bodyInput.value = "";
+        isPinnedInput.checked = false;
+        tagsInput.value = "";
+        statusMsg.textContent = "등록 완료!";
+      } catch (err) {
+        console.error("Failed to add disclosure:", err);
+        statusMsg.style.color = "#b42318";
+        statusMsg.textContent = `오류가 발생했습니다: ${err.message}`;
+      } finally {
+        submitBtn.disabled = false;
+      }
+    });
+  </script>
+</body>
+</html>
