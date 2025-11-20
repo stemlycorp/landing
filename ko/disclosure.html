@@ -7,7 +7,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="../css/style.css" />
   <link rel="stylesheet" href="../css/disclosure.css" />
 </head>
 <body>
@@ -35,7 +35,7 @@
 
       <section class="content-section disclosure-board">
         <div class="disclosure-layout" aria-live="polite">
-          <div>
+          <div class="list-card">
             <p class="loading" id="loading-indicator" style="display:none;">공시를 불러오는 중…</p>
             <p class="error-state" data-error hidden>공시를 불러오지 못했습니다. 새로고침해 주세요.</p>
             <p class="empty-state" id="empty-indicator" style="display:none;">등록된 공시가 없습니다.</p>
@@ -57,6 +57,8 @@
 
   <footer class="site-footer">
     <p>© 2025 Stemly. All rights reserved.</p>
+    <p>경기도 용인시 기흥구 구갈로60번길 9-1, 7층 7421호</p>
+    <p>contact@stemly.me</p>
   </footer>
 
   <script>
@@ -85,8 +87,9 @@
         }
       }
     }
-    const langButtons = document.querySelectorAll('.lang-button[data-lang]');
-    if (langButtons.length) {
+    document.addEventListener('DOMContentLoaded', () => {
+      const langButtons = document.querySelectorAll('.lang-button[data-lang]');
+      if (!langButtons.length) return;
       const path = window.location.pathname;
       const locale = localePath(path);
       const currentLang = locale.isKo ? 'ko' : 'en';
@@ -109,9 +112,9 @@
           });
         }
       });
-    }
+    });
   </script>
-  <script src="./main.js"></script>
+  <script src="../scripts/main.js"></script>
   <script type="module" src="../scripts/disclosure.js"></script>
 </body>
 </html>

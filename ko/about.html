@@ -7,7 +7,9 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="./style.css" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="stylesheet" href="../css/disclosure.css" />
+
 </head>
 <body>
   <header class="site-header" aria-label="Primary">
@@ -33,9 +35,34 @@
           우리의 방향은 호기심과 엄밀함, 그리고 의미 있는 것을 만들고자 하는 의지에서 출발합니다.
         </p>
       </section>
+      <section class="content-section company-info" aria-labelledby="company-info-title">
+          <article class="detail-card company-info-card">
+            <h2 id="company-info-title" class="company-info-title">회사 정보</h2>
+            <p class="company-info-name">스템리 주식회사 (Stemly Corp.)</p>
+            <dl class="company-info-list">
+              <div class="info-row">
+                <dt>주소</dt>
+                <dd>경기도 용인시 기흥구 구갈로 60번길 9-1, 7층 7421호<br>(구갈동, 라파빌딩)</dd>
+              </div>
+
+              <div class="info-row">
+                <dt>대표자</dt>
+                <dd>송욱</dd>
+              </div>
+
+              <div class="info-row">
+                <dt>이메일</dt>
+                <dd><a href="mailto:contact@stemly.me">contact@stemly.me</a></dd>
+              </div>
+            </dl>
+          </article>
+      </section>
     </main>
   </div>
 
+  <footer class="site-footer">
+    <p>© 2025 Stemly Corp. All rights reserved.</p>
+  </footer>
   <script>
     function localePath(path) {
       return {

@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="./css/style.css" />
+  <link rel="stylesheet" href="./css/disclosure.css" />
 </head>
 <body>
   <header class="site-header" aria-label="Primary">
@@ -33,8 +34,41 @@
           Our work is shaped by curiosity, rigor, and a desire to build what truly matters.
         </p>
       </section>
+      <section class="content-section company-info" aria-labelledby="company-info-title">
+        <article class="detail-card company-info-card">
+
+          <h2 id="company-info-title" class="company-info-title">Company Information</h2>
+
+          <p class="company-info-name">Stemly Corp.</p>
+
+          <dl class="company-info-list">
+
+            <div class="info-row">
+              <dt>Address</dt>
+              <dd>Unit 7421, 9-1, Gugal-ro 60beon-gil, Giheung-gu,<br>
+                Yongin-si, Gyeonggi-do, Republic of Korea</dd>
+            </div>
+
+            <div class="info-row">
+              <dt>Representative</dt>
+              <dd>Wook Song</dd>
+            </div>
+
+            <div class="info-row">
+              <dt>Email</dt>
+              <dd><a href="mailto:contact@stemly.me">contact@stemly.me</a></dd>
+            </div>
+
+          </dl>
+
+        </article>
+      </section>
     </main>
   </div>
+
+  <footer class="site-footer">
+    <p>© 2025 Stemly Corp. All rights reserved.</p>
+  </footer>
 
   <script>
     function localePath(path) {
