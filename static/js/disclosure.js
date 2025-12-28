@@ -9,7 +9,11 @@ import { firebaseConfig } from './firebaseConfig.js';
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-const isKorean = (document.documentElement.lang || '').toLowerCase().startsWith('ko');
+const langFromAttr = (document.documentElement.getAttribute('lang') || '').toLowerCase();
+const langFromData =
+  (document.documentElement.dataset?.lang || document.body?.dataset?.lang || '').toLowerCase();
+const pathIsKorean = /\/ko(\/|$)/.test(window.location.pathname);
+const isKorean = pathIsKorean || langFromAttr.startsWith('ko') || langFromData.startsWith('ko');
 const COPY = {
   pinned: isKorean ? '상단 고정' : 'Pinned',
   untitled: isKorean ? '제목 없는 공시' : 'Untitled disclosure',
@@ -95,9 +99,11 @@ function setActiveDisclosure(id) {
 }
 
 function renderList(items) {
+  const MAX_ITEMS = 10;
+  const limitedItems = items.slice(0, MAX_ITEMS);
   if (!listEl) return;
   listEl.innerHTML = '';
-  items.forEach((item) => {
+  limitedItems.forEach((item) => {
     const li = document.createElement('li');
     const button = document.createElement('button');
     button.type = 'button';

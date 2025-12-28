@@ -2,15 +2,24 @@
   --bg: #06090f;
   --fg: #e6f3ff;
   --accent: #60a5fa;
+  --header-height: 76px;
+  --lede-padding-top: clamp(20px, 5vh, 90px);
+  --lede-padding-right: clamp(20px, 5vw, 90px);
+  --lede-padding-bottom: clamp(16px, 4vh, 60px);
+  --lede-padding-left: clamp(28px, 7vw, 140px);
+  --lede-title-size: clamp(32px, 6vw, 64px);
+  --lede-subtitle-size: clamp(14px, 2.8vw, 22px);
+  --list-title-size: clamp(14px, 2.6vw, 16px);
+  --list-body-size: clamp(12px, 2.4vw, 14px);
+  --detail-title-size: clamp(18px, 4vw, 28px);
+  --detail-body-size: clamp(13px, 2.4vw, 15px);
 }
 
 *{ box-sizing: border-box; }
-main {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+html, body {
+  margin: 0;
+  padding: 0;
 }
-html, body { min-height: 100%; }
 body{
   margin:0;
   font-family: Inter, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji","Segoe UI Emoji";
@@ -18,7 +27,17 @@ body{
   background: radial-gradient(1200px 800px at 70% 30%, #0b1220 0%, #06090f 70%);
   min-height: 100dvh;
   overflow-x: hidden;
-  overflow-y: auto;
+}
+
+.app-root {
+  width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+}
+
+.app-root > main{
+  flex: 1 0 auto;
   display: flex;
   flex-direction: column;
 }
@@ -27,6 +46,7 @@ body{
   position: sticky;
   top: 0;
   z-index: 10;
+  min-height: var(--header-height);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -86,6 +106,10 @@ body{
   border: 1px solid rgba(255,255,255,0.12);
   background: rgba(10,16,28,0.7);
   box-shadow: inset 0 0 0 1px rgba(255,255,255,0.02);
+  margin-left: auto;
+}
+.primary-nav > .spacer{
+  flex: 1;
 }
 .lang-switch .icon{
   font-size: 10px;
@@ -111,43 +135,50 @@ body{
 }
 
 .page-content{
-  flex: 1;
+  flex: 0 0 auto;
   display: flex;
   flex-direction: column;
   padding: clamp(24px, 4vw, 64px);
   gap: clamp(18px, 4vh, 32px);
+  --page-lede-padding-top: var(--lede-padding-top);
+  --page-lede-padding-right: var(--lede-padding-right);
+  --page-lede-padding-bottom: var(--lede-padding-bottom);
+  --page-lede-padding-left: var(--lede-padding-left);
 }
 
+
+
 .page-lede{
-  padding-top: clamp(28px, 5vh, 110px);
-  padding-right: clamp(24px, 5vw, 90px);
-  padding-bottom: clamp(20px, 4vh, 60px);
-  padding-left: clamp(32px, 7vw, 160px);
+  padding-top: var(--page-lede-padding-top);
+  padding-right: var(--page-lede-padding-right);
+  padding-bottom: var(--page-lede-padding-bottom);
+  padding-left: var(--page-lede-padding-left);
   display: flex;
   flex-direction: column;
   gap: 12px;
 }
 .page-lede h1{
   margin: 0;
-  font-size: clamp(32px, 8vw, 80px);
+  font-size: var(--lede-title-size);
   line-height: 1.05;
 }
 .page-lede p{
   margin: 0;
   opacity: 0.8;
-  font-size: clamp(14px, 3vw, 24px);
+  font-size: var(--lede-subtitle-size);
 }
 
 .hero-title{
   margin: 0;
   line-height: 1.05;
+  font-size: var(--lede-title-size);
 }
 
 .hero-subtitle{
   margin: 0;
   opacity: 0.85;
   line-height: 1.6;
-  font-size: clamp(1rem, 2.8vw, 1.35rem);
+  font-size: var(--lede-subtitle-size);
 }
 
 .hero-title-en,
@@ -163,13 +194,9 @@ body{
 }
 
 .about-page .hero-title{
-  font-size: clamp(2.6rem, 5vw, 3.4rem);
+  font-size: var(--lede-title-size);
 }
 
-.about-page .page-lede{
-  padding-top: clamp(48px, 9vh, 140px);
-  padding-bottom: clamp(28px, 6vh, 90px);
-}
 
 @media (max-width: 768px){
   .hero-title-en,
@@ -217,8 +244,8 @@ body{
   position: relative;
   width: 100%;
   flex: 1;
-  height: auto;
-  min-height: clamp(520px, 75vh, 960px);
+  min-height: 0;
+  overflow: hidden;
 }
 
 #treeCanvas{
@@ -243,11 +270,11 @@ body{
   justify-content: flex-start;
   align-items: flex-start;
   pointer-events: none;
-  padding-top: clamp(28px, 5vh, 110px);
+  padding-top: clamp(24px, 4vh, 90px);
   padding-right: clamp(24px, 5vw, 90px);
-  padding-bottom: clamp(20px, 4vh, 80px);
+  padding-bottom: clamp(18px, 4vh, 64px);
   padding-left: clamp(32px, 7vw, 160px);
-  gap: clamp(20px, 4vw, 40px);
+  gap: clamp(16px, 4vw, 36px);
 }
 
 .hero-headlines{
@@ -287,7 +314,7 @@ body{
   text-align: right;
   backdrop-filter: blur(8px);
   pointer-events: none;
-  margin-top: clamp(12px, 4vh, 60px);
+  margin-top: clamp(10px, 3vh, 40px);
   margin-right: clamp(12px, 4vw, 80px);
 }
 .brand-letters{
@@ -320,12 +347,49 @@ body{
   text-align: center;
 }
 
+@media (max-height: 720px){
+  .page-lede{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    margin: 0;
+  }
+  .page-content{
+    padding-top: 16px;
+  }
+}
+
+@media (max-height: 680px){
+  .about-page .page-lede{
+    padding-top: 10px;
+    padding-right: var(--lede-padding-right);
+    padding-bottom: 10px;
+    padding-left: var(--lede-padding-left);
+    margin: 0;
+  }
+}
+
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
   #treeCanvas{ animation: none !important; }
 }
 
 @media (max-width: 640px){
+  :root{
+    --header-height: 112px;
+    --lede-padding-top: 14px;
+    --lede-padding-right: clamp(14px, 6vw, 22px);
+    --lede-padding-bottom: 12px;
+    --lede-padding-left: clamp(14px, 6vw, 22px);
+    --lede-title-size: clamp(22px, 6vw, 28px);
+    --lede-subtitle-size: clamp(12px, 3vw, 16px);
+    --list-title-size: clamp(13px, 3vw, 15px);
+    --list-body-size: clamp(12px, 2.8vw, 13px);
+    --detail-title-size: clamp(16px, 4vw, 22px);
+    --detail-body-size: clamp(12px, 2.6vw, 14px);
+  }
+  .app-root > main{
+    min-height: calc(100vh - var(--header-height));
+  }
   .site-header{
     flex-direction: column;
     align-items: flex-start;
@@ -335,10 +399,11 @@ body{
     gap: 12px 18px;
     font-size: 12px;
     letter-spacing: 0.5px;
+    width: 100%;
+    justify-content: flex-start;
   }
   .hero{
-    height: auto;
-    min-height: 80vh;
+    min-height: 0;
   }
   .overlay{
     padding: clamp(24px, 12vh, 110px) clamp(18px, 8vw, 52px);
@@ -355,9 +420,78 @@ body{
     text-align: left;
   }
   .overlay h1{
-    font-size: clamp(28px, 9vw, 44px);
+    font-size: clamp(24px, 8vw, 36px);
+  }
+  .page-content{
+    padding: 14px clamp(14px, 5vw, 22px) 80px;
+    gap: 12px;
+  }
+  .page-lede{
+    padding: 24px clamp(14px, 5vw, 22px) 20px;
+  }
+  .content-section{
+    padding: 8px clamp(14px, 5vw, 22px) 28px;
+  }
+  .company-info .info-row{
+    flex-direction: column;
+    gap: 6px;
+  }
+  .company-info dt{
+    width: auto;
   }
   .overlay p{
     font-size: clamp(14px, 4vw, 18px);
+  }
+}
+
+@media (max-width: 430px){
+  :root{
+    --header-height: 88px;
+    --lede-title-size: clamp(20px, 6vw, 26px);
+    --lede-subtitle-size: clamp(11px, 3vw, 14px);
+  }
+  .company-info .detail-card{
+    padding: clamp(16px, 4vw, 22px);
+  }
+  .company-info .info-row{
+    padding: 8px 0;
+  }
+  .site-header{
+    padding: 12px clamp(12px, 4vw, 18px);
+    gap: 14px;
+  }
+  .primary-nav{
+    gap: 12px;
+    font-size: 12px;
+  }
+  .lang-switch{
+    padding: 2px;
+  }
+  .lang-button{
+    padding: 3px 7px;
+    font-size: 8px;
+  }
+  .site-footer{
+    padding: 6px 12px;
+    font-size: 10px;
+  }
+  .overlay{
+    padding: clamp(18px, 8vh, 60px) clamp(14px, 6vw, 32px);
+  }
+  .brand-tile{
+    margin-right: clamp(8px, 3vw, 20px);
+    padding: 12px 16px;
+  }
+  .page-content{
+    padding: 16px clamp(12px, 4vw, 18px);
+  }
+  .page-lede{
+    padding: 20px clamp(12px, 4vw, 18px) 16px;
+  }
+  .content-section{
+    padding: 8px clamp(12px, 4vw, 18px) 22px;
+  }
+  .company-info .detail-card{
+    padding: clamp(18px, 4vw, 24px);
   }
 }
