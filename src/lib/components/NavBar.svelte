@@ -3,7 +3,7 @@
   import { navCopy } from "$lib/i18n/copy";
 
   export let lang: Locale = "en";
-  export let active: "home" | "about" | "disclosure" = "home";
+  export let active: "home" | "about" | "projects" | "disclosure" = "home";
   // The path for the current page without any locale prefix (e.g. "/", "/about").
   export let path = "/";
 
@@ -13,6 +13,13 @@
 <nav class="primary-nav" aria-label={copy.navAriaLabel}>
   <a href={hrefForLang(lang, "/about")} aria-current={active === "about" ? "page" : undefined} class:active={active === "about"}>
     {copy.about}
+  </a>
+  <a
+    href={hrefForLang(lang, "/projects")}
+    aria-current={active === "projects" ? "page" : undefined}
+    class:active={active === "projects"}
+  >
+    {copy.projects}
   </a>
   <a
     href={hrefForLang(lang, "/disclosure")}

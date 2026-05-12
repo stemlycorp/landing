@@ -4,6 +4,7 @@ type CopyMap<T> = Record<Locale, T>;
 
 export const navCopy: CopyMap<{
   about: string;
+  projects: string;
   disclosure: string;
   contact: string;
   langSwitchLabel: string;
@@ -11,6 +12,7 @@ export const navCopy: CopyMap<{
 }> = {
   en: {
     about: "About Us",
+    projects: "Projects",
     disclosure: "Disclosure",
     contact: "Contact",
     langSwitchLabel: "Language selector",
@@ -18,6 +20,7 @@ export const navCopy: CopyMap<{
   },
   ko: {
     about: "회사 소개",
+    projects: "프로젝트",
     disclosure: "공시",
     contact: "문의",
     langSwitchLabel: "언어 선택",
@@ -62,6 +65,48 @@ export const aboutCopy: CopyMap<{
     representativeLabel: "대표자",
     representativeValue: "송욱",
     emailLabel: "이메일",
+  },
+};
+
+export const projectsCopy: CopyMap<{
+  pageTitle: string;
+  heroTitle: string;
+  heroSubtitle: string;
+  featuredLabel: string;
+  visitLabel: string;
+  detailsLabel: string;
+  natiTitle: string;
+  natiSummary: string;
+  natiDescription: string;
+  natiMeta: string[];
+}> = {
+  en: {
+    pageTitle: "Stemly — Projects",
+    heroTitle: "Small products, built with care.",
+    heroSubtitle:
+      "A gallery of Stemly experiments and products shaped around useful interfaces, AI systems, and focused learning loops.",
+    featuredLabel: "Featured project",
+    visitLabel: "Open Nati",
+    detailsLabel: "How it works",
+    natiTitle: "Nati",
+    natiSummary: "Korean writing tutor for learners",
+    natiDescription:
+      "Nati helps Korean learners turn short drafts into more natural writing with visible rewrites, tutor-style explanations, and a fast practice loop.",
+    natiMeta: ["AI product", "Language learning", "Writing tutor", "Web app"],
+  },
+  ko: {
+    pageTitle: "Stemly — Projects",
+    heroTitle: "Small products, built with care.",
+    heroSubtitle:
+      "A gallery of Stemly experiments and products shaped around useful interfaces, AI systems, and focused learning loops.",
+    featuredLabel: "Featured project",
+    visitLabel: "Open Nati",
+    detailsLabel: "How it works",
+    natiTitle: "Nati",
+    natiSummary: "Korean writing tutor for learners",
+    natiDescription:
+      "Nati는 짧은 한국어 글을 더 자연스럽게 다듬고, 무엇이 왜 바뀌었는지 튜터처럼 설명해 주는 학습용 웹 앱입니다.",
+    natiMeta: ["AI product", "Language learning", "Writing tutor", "Web app"],
   },
 };
 
